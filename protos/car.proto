@@ -1,0 +1,23 @@
+syntax = "proto3";
+package testing.car;
+
+option go_package = "github.com/naufaldinta13/cars/protos";
+
+message Car {
+    int64  car_id      = 1;
+	string  car_name    = 2;
+	double  month_rate  = 3;
+    string  image       = 4;
+}
+
+message ShowRequest {
+    string id = 1;
+}
+
+message CarResponse {
+   Car car = 1;
+}
+
+service CarService {
+    rpc Show (ShowRequest) returns (CarResponse) {}
+}
