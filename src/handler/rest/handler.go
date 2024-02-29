@@ -17,8 +17,6 @@ func RegisterHandler(e *echo.Echo) {
 // @Summary get list cars
 // @Accept json
 // @Produce json
-// @Param type query string false "type"
-// @Param entities query string false "entities"
 // @Param limit query int64 false "limit pagionation"
 // @Param page query int64 false "pagination"
 // @Param search query string false "name"
