@@ -11,8 +11,8 @@ import (
 type updateRequest struct {
 	ID        string  `json:"-"`
 	Name      string  `json:"name" valid:"required"`
-	MonthRate float64 `json:"month_rate"`
-	Image     string  `json:"image"`
+	MonthRate float64 `json:"month_rate" valid:"required"`
+	Image     string  `json:"image" valid:"required"`
 
 	Car *entity.Cars `json:"-"`
 }

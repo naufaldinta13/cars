@@ -10,8 +10,8 @@ import (
 
 type createRequest struct {
 	Name      string  `json:"name" valid:"required"`
-	MonthRate float64 `json:"month_rate"`
-	Image     string  `json:"image"`
+	MonthRate float64 `json:"month_rate" valid:"required"`
+	Image     string  `json:"image" valid:"required"`
 }
 
 func (r *createRequest) Validate() *validate.Response {
