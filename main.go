@@ -51,6 +51,7 @@ func main() {
 
 func initMysqlConnection() {
 	c := &sql.Config{
+		ShowLog:    os.Getenv("DEBUG_MODE") == "true",
 		Server:     os.Getenv("MYSQL_SERVER"),
 		Username:   os.Getenv("MYSQL_USERNAME"),
 		Password:   os.Getenv("MYSQL_PASSWORD"),

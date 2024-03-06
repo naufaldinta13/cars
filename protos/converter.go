@@ -12,7 +12,7 @@ func ConvertCarResponse(r *CarResponse) (result *entity.Cars, e error) {
 
 func ConvertCarToEntity(m *Car) (result *entity.Cars, e error) {
 	result = &entity.Cars{
-		CarID:     m.CarId,
+		ID:        m.Id,
 		CarName:   m.CarName,
 		MonthRate: m.MonthRate,
 		Image:     m.Image,
@@ -23,7 +23,7 @@ func ConvertCarToEntity(m *Car) (result *entity.Cars, e error) {
 
 func ConvertCarToProto(m *entity.Cars) *Car {
 	return &Car{
-		CarId:     m.CarID,
+		Id:        m.ID,
 		CarName:   m.CarName,
 		MonthRate: m.MonthRate,
 		Image:     m.Image,

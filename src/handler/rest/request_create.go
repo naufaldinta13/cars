@@ -10,35 +10,34 @@ import (
 
 type createRequest struct {
 	Name      string  `json:"name" valid:"required"`
-	MonthRate float64 `json:"month_rate" valid:"required"`
+	DayRate   float64 `json:"day_rate" valid:"required|gt:0"`
+	MonthRate float64 `json:"month_rate" valid:"required|gt:0"`
 	Image     string  `json:"image" valid:"required"`
 }
 
 func (r *createRequest) Validate() *validate.Response {
 	v := validate.NewResponse()
 
-	if bloc.ValidDuplicate(r.Name, "") {
-		v.SetError("name.required", "nama sudah tersedia.")
+	if !bloc.ValidDuplicate(r.Name, "") {
+		v.SetError("name.invalid", "nama sudah tersedia.")
 	}
 
 	return v
 }
 
 func (r *createRequest) Messages() map[string]string {
-	return map[string]string{
-		"name.required": "nama harus diisi.",
-	}
+	return map[string]string{}
 }
 
 func (r *createRequest) Execute() (m *entity.Cars, e error) {
 	m = &entity.Cars{
 		CarName:   r.Name,
+		DayRate:   r.DayRate,
 		MonthRate: r.MonthRate,
 		Image:     r.Image,
-		IsDeleted: false,
 	}
 
-	if m.CarID, e = orm.NewOrm().Insert(m); e != nil {
+	if m.ID, e = orm.NewOrm().Insert(m); e != nil {
 		return
 	}
 

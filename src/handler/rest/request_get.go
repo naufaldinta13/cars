@@ -26,6 +26,10 @@ func (r *getRequest) Detail(id string) (resp *rest.ResponseBody) {
 func (r *getRequest) List() (resp *rest.ResponseBody) {
 	resp = rest.NewResponseBody()
 
+	if r.OrderBy == "" {
+		r.OrderBy = "-id"
+	}
+
 	var mx []*entity.Cars
 	qs := orm.NewOrm().QueryTable("cars")
 	qs = qs.OrderBy(r.GetOrders()...)
@@ -35,7 +39,7 @@ func (r *getRequest) List() (resp *rest.ResponseBody) {
 		qs = qs.Search(s, "car_name")
 	}
 
-	qs = qs.Filter("is_deleted", false)
+	qs = qs.Filter("is_deleted", 0)
 
 	total, err := qs.Count()
 	if total == 0 || err != nil {
