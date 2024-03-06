@@ -6,8 +6,9 @@ option go_package = "github.com/naufaldinta13/cars/protos";
 message Car {
     int64   id      = 1;
 	string  car_name    = 2;
-	double  month_rate  = 3;
-    string  image       = 4;
+    double  day_rate  = 3;
+	double  month_rate  = 4;
+    string  image       = 5;
 }
 
 message ShowRequest {

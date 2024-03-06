@@ -14,6 +14,7 @@ func ConvertCarToEntity(m *Car) (result *entity.Cars, e error) {
 	result = &entity.Cars{
 		ID:        m.Id,
 		CarName:   m.CarName,
+		DayRate:   m.DayRate,
 		MonthRate: m.MonthRate,
 		Image:     m.Image,
 	}
@@ -25,6 +26,7 @@ func ConvertCarToProto(m *entity.Cars) *Car {
 	return &Car{
 		Id:        m.ID,
 		CarName:   m.CarName,
+		DayRate:   m.DayRate,
 		MonthRate: m.MonthRate,
 		Image:     m.Image,
 	}

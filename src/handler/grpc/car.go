@@ -12,7 +12,7 @@ type CarService struct{}
 
 func (g *CarService) Show(ctx context.Context, req *protos.ShowRequest, resp *protos.CarResponse) error {
 	var mx entity.Cars
-	if err := orm.NewOrm().QueryTable("cars").Filter("id", req.Id).One(&mx); err != nil {
+	if err := orm.NewOrm().QueryTable("cars").Filter("id", req.Id).Filter("is_deleted", 0).One(&mx); err != nil {
 		return err
 	}
 
