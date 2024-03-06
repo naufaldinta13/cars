@@ -23,6 +23,12 @@ func (r *deleteRequest) Validate() *validate.Response {
 		v.SetError("id.invalid", "data tidak ditemukan.")
 	}
 
+	if r.Car != nil {
+		if r.Car.IsDeleted == 1 {
+			v.SetError("id.invalid", "data sudah dihapus.")
+		}
+	}
+
 	return v
 }
 
