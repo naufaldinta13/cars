@@ -18,13 +18,17 @@ func NewRentRepository() *RentRepository {
 }
 
 func (r *RentRepository) Create(m *entity.Car) (mx *entity.Car, e error) {
-	e = r.db.Create(m).Error
+	if e = r.db.Create(m).Error; e != nil {
+		return nil, e
+	}
 
 	return m, e
 }
 
-func (r *RentRepository) Update(m *entity.Car, fields ...string) (mx *entity.Car, e error) {
-	e = r.db.Model(&m).UpdateColumn(fields).Error
+func (r *RentRepository) Update(m *entity.Car) (mx *entity.Car, e error) {
+	if e = r.db.Save(m).Error; e != nil {
+		return nil, e
+	}
 
 	return m, e
 }

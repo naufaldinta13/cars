@@ -47,10 +47,10 @@ func (r *UpdateRequest) Execute() (mx *entity.Car, e error) {
 		DayRate:   r.DayRate,
 		MonthRate: r.MonthRate,
 		Image:     r.Image,
+		IsDeleted: r.Car.IsDeleted,
 	}
 
-	fields := []string{"car_name", "day_rate", "month_rate", "image"}
-	mx, e = controllers.NewRentRepository().Update(mx, fields...)
+	mx, e = controllers.NewRentRepository().Update(mx)
 
 	return
 }

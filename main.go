@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -9,10 +8,13 @@ import (
 	"github.com/naufaldinta13/cars/grpc"
 	"github.com/naufaldinta13/cars/protos"
 	"github.com/naufaldinta13/cars/routes"
+	"github.com/oklog/run"
 
 	"github.com/asim/go-micro/v3"
 	"github.com/joho/godotenv"
 )
+
+var Routine run.Group
 
 func initMySQLConnection() {
 	c := &config.DBCOnfig{
@@ -28,22 +30,17 @@ func initMySQLConnection() {
 }
 
 func initGrpcConnection() {
-	service := micro.NewService(
-		micro.Name("cars"),
-		micro.Address(os.Getenv("SERVICE_REGISTRY")),
-	)
-
-	service.Init()
-
-	protos.RegisterCarServiceHandler(service.Server(), new(grpc.CarService))
-
-	if err := service.Run(); err != nil {
-		fmt.Println(fmt.Sprintf("Failed to GRPC Server %s", err))
-
-		return
+	c := &config.GrpcConfig{
+		Name:           "testing.car",
+		RegistryServer: os.Getenv("SERVICE_REGISTRY"),
+		Server:         os.Getenv("SERVICE_SERVER"),
 	}
 
-	fmt.Println("Connected to GRPC Server")
+	if e := config.NewGrpcConnection(c, func(s micro.Service) {
+		protos.RegisterCarServiceHandler(s.Server(), new(grpc.CarService))
+	}); e != nil {
+		log.Fatal(e)
+	}
 }
 
 func init() {
@@ -56,5 +53,10 @@ func init() {
 func main() {
 	route := routes.SetupRoutes()
 
-	route.Run(os.Getenv("REST_SERVER"))
+	go func() {
+		route.Run(os.Getenv("REST_SERVER"))
+	}()
+
+	Routine.Add(config.Start, config.Shutdown)
+	Routine.Run()
 }
